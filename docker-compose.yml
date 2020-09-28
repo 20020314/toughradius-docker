@@ -1,0 +1,78 @@
+version: "3"
+services:
+  mysql:
+    image: mysql
+    container_name: "mysql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: myroot
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+      --max_allowed_packet=128M;
+    volumes:
+      - /greendata/mysql_data:/var/lib/mysql
+      - /greendata/vardata/mysql:/var/log/mysql
+    ports:
+      - 127.0.0.1:3306:3306
+    expose:
+      - 3306
+    networks:
+      gradius_network:
+
+  greenradius:
+    depends_on:
+      - 'mysql'
+    image: docker.pkg.github.com/toughstruct/greenradius-docker/greenradius
+    container_name: "greenradius"
+    restart: always
+    ports:
+      - "1816:1816"
+      - "1812:1812/udp"
+      - "1813:1813/udp"
+    expose:
+      - 1816
+      - 1812/udp
+      - 1813/udp
+    volumes:
+      - /greendata/vardata:/var/greenradius
+    environment:
+      - GODEBUG=x509ignoreCN=0
+      - GRADIUS_WEB_DEBUG=false
+      - GRADIUS_WEB_SECRET=9b6de5cc-0000-4bf1-gree-0f568ac9da37
+      - GRADIUS_DB_HOST=mysql
+      - GRADIUS_DB_NAME=greenradius
+      - GRADIUS_DB_USER=greenradius
+      - GRADIUS_DB_PWD=Green!2020
+      - GRADIUS_DB_DEBUG=false
+      - GRADIUS_REDIS_HOST=redis:6379
+    networks:
+      gradius_network:
+
+  freeradius:
+    depends_on:
+      - 'greenradius'
+    image: docker.pkg.github.com/toughstruct/greenradius-docker/freeradius
+    container_name: "freeradius"
+    restart: always
+    command: lfreemate
+    ports:
+      - "1912:1912/udp"
+      - "1913:1913/udp"
+      - "1915:1915"
+    expose:
+      - 1912/udp
+      - 1913/udp
+      - 1915
+    volumes:
+      - /greendata/vardata/freeradius:/var/log/freeradius
+    environment:
+      - FREERADIUS_API_URL=http://greenradius:1816
+    networks:
+      gradius_network:
+
+networks:
+  gradius_network:
