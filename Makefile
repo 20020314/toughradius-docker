@@ -16,6 +16,12 @@ build-all:
 	make build-gradius
 	make build-fradius
 
+github:
+	docker tag greenradius docker.pkg.github.com/toughstruct/greenradius-docker/greenradius
+	docker push docker.pkg.github.com/toughstruct/greenradius-docker/greenradius
+	docker tag freeradius docker.pkg.github.com/toughstruct/greenradius-docker/freeradius
+	docker push docker.pkg.github.com/toughstruct/greenradius-docker/freeradius
+
 push:
 	@read -p "type commit message: " cimsg; \
 	git ci -am "$(shell date "+%F %T") $${cimsg}"
