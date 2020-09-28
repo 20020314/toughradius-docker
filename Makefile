@@ -1,18 +1,18 @@
 build-gradius:
 	docker build -f ./greenradius/Dockerfile -t greenradius .
-	docker tag greenradius docker.pkg.github.com/toughstruct/greenradius-docker/greenradius
-	docker push docker.pkg.github.com/toughstruct/greenradius-docker/greenradius
+	docker tag greenradius toughstruct/greenradius
+	docker push toughstruct/greenradius
 
 build-fradius:
 	cd ./freeradius && docker build -t freeradius .
-	docker tag freeradius docker.pkg.github.com/toughstruct/greenradius-docker/freeradius
-	docker push freeradius
+	docker tag freeradius toughstruct/freeradius
+	docker push toughstruct/freeradius
 
 build-frmate:
 	cd freeradius && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags '-s -w -extldflags "-static"' -o lfreemate freemate.go
 	upx freeradius/lfreemate
 
-all:
+build-all:
 	make build-gradius
 	make build-fradius
 
