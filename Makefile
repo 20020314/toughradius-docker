@@ -1,5 +1,5 @@
 build-tradius:
-	cd ./toughradius && docker build -t toughradius .
+	cd ./toughradius && docker build  -t toughradius .
 	docker tag toughradius toughstruct/toughradius
 	docker push toughstruct/toughradius
 

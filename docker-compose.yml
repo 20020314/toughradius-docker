@@ -28,6 +28,7 @@ services:
       - 'mysql'
     image: toughstruct/toughradius
     container_name: "toughradius"
+    command: "toughradius -with-freeradius"
     restart: always
     ports:
       - "1816:1816"
