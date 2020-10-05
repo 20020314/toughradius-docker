@@ -4,6 +4,8 @@ ToughRADIUS Docker 容器部署方法， 这里通过 dcoker-compose容器编排
 
 使用本方法部署， 您需要对Docker 以及 docker-compose 编排工具有足够的了解
 
+[Github 项目地址：github.com/toughstruct/toughradius-docker](https://github.com/toughstruct/toughradius-docker)
+
 ##  环境准备
 
 Docker 工具安装
@@ -68,5 +70,22 @@ Docker 仓库加速， 由于 docker 服务器访问较慢， 最好使用国内
     # 创建所有容器
     docker-compose  up -d
 
+## 升级脚本
 
+> upgrade.sh 脚本内容
+
+    #!/bin/bash
+
+    cd /opt/toughradius
+
+    # 尝试删除已有的容器组
+    docker-compose rm -f -s
+
+    # 下载部署文件
+    curl https://raw.githubusercontent.com/toughstruct/toughradius-docker/master/docker-compose.yml -o docker-compose.yml
+
+    docker-compose pull
+
+    # 重建其他容器
+    docker-compose  up -d
 
