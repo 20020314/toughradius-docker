@@ -1,7 +1,7 @@
-build-gradius:
-	docker build -f ./greenradius/Dockerfile -t greenradius .
-	docker tag greenradius toughstruct/greenradius
-	docker push toughstruct/greenradius
+build-tradius:
+	docker cd ./freeradius && docker build -t toughradius .
+	docker tag toughradius toughstruct/toughradius
+	docker push toughstruct/toughradius
 
 build-fradius:
 	cd ./freeradius && docker build -t freeradius .
@@ -13,14 +13,14 @@ build-frmate:
 	upx freeradius/lfreemate
 
 build-all:
-	make build-gradius
+	make build-tradius
 	make build-fradius
 
 github:
-	docker tag greenradius docker.pkg.github.com/toughstruct/greenradius-docker/greenradius
-	docker push docker.pkg.github.com/toughstruct/greenradius-docker/greenradius
-	docker tag freeradius docker.pkg.github.com/toughstruct/greenradius-docker/freeradius
-	docker push docker.pkg.github.com/toughstruct/greenradius-docker/freeradius
+	docker tag toughradius docker.pkg.github.com/toughstruct/toughradius-docker/toughradius
+	docker push docker.pkg.github.com/toughstruct/toughradius-docker/toughradius
+	docker tag freeradius docker.pkg.github.com/toughstruct/toughradius-docker/freeradius
+	docker push docker.pkg.github.com/toughstruct/toughradius-docker/freeradius
 
 push:
 	@read -p "type commit message: " cimsg; \
@@ -28,13 +28,13 @@ push:
 	git push origin master
 
 expsql:
-	echo "create schema if not exists greenradius collate utf8mb4_unicode_ci;" > greenradius.sql
-	echo "CREATE USER IF NOT EXISTS greenradius@'172.%.%.%' identified by 'Bss!2020';" >> greenradius.sql
-	echo "GRANT ALL PRIVILEGES ON greenradius.* TO greenradius@'172.%.%.%';" >> greenradius.sql
-	echo "ALTER USER 'greenradius'@'172.%.%.%' IDENTIFIED WITH mysql_native_password BY 'Green!2020';\n\n" >> greenradius.sql
-	mysqldump -uroot -p -B greenradius --skip-add-locks --no-create-db --skip-lock-tables \
+	echo "create schema if not exists toughradius collate utf8mb4_unicode_ci;" > toughradius.sql
+	echo "CREATE USER IF NOT EXISTS toughradius@'172.%.%.%' identified by 'Bss!2020';" >> toughradius.sql
+	echo "GRANT ALL PRIVILEGES ON toughradius.* TO toughradius@'172.%.%.%';" >> toughradius.sql
+	echo "ALTER USER 'toughradius'@'172.%.%.%' IDENTIFIED WITH mysql_native_password BY 'Tough!2020';\n\n" >> toughradius.sql
+	mysqldump -uroot -p -B toughradius --skip-add-locks --no-create-db --skip-lock-tables \
 	--extended-insert --complete-insert --create-options --disable-keys --add-drop-table --result-file="tmp.sql"
-	cat tmp.sql >> greenradius.sql
+	cat tmp.sql >> toughradius.sql
 	rm -f tmp.sql
 
 
