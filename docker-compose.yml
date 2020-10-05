@@ -36,12 +36,16 @@ services:
       - "1813:1813/udp"
       - "1912:1912/udp"
       - "1913:1913/udp"
+      - "2912:2912/udp"
+      - "2913:2913/udp"
     expose:
       - 1816
       - 1812/udp
       - 1813/udp
       - 1912/udp
       - 1913/udp
+      - 2912/udp
+      - 2913/udp
     volumes:
       - /opt/toughradius/vardata:/var/toughradius
       - /opt/toughradius/vardata/freeradius:/var/log/freeradius
