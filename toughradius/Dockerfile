@@ -8,7 +8,7 @@ COPY freeradius/ /etc/raddb/
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
-ARG CACHEBUST=2
+ARG CACHEBUST=6
 RUN curl -k https://toughradius-1251458486.cos.ap-shanghai.myqcloud.com/enterprise/toughradius-latest -o /usr/local/bin/toughradius
 RUN chmod +x /usr/local/bin/toughradius
 
