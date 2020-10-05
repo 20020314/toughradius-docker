@@ -33,12 +33,17 @@ services:
       - "1816:1816"
       - "1812:1812/udp"
       - "1813:1813/udp"
+      - "1912:1912/udp"
+      - "1913:1913/udp"
     expose:
       - 1816
       - 1812/udp
       - 1813/udp
+      - 1912/udp
+      - 1913/udp
     volumes:
       - /opt/toughradius/vardata:/var/toughradius
+      - /opt/toughradius/vardata/freeradius:/var/log/freeradius
     environment:
       - GODEBUG=x509ignoreCN=0
       - TOUGHRADIUS_WEB_DEBUG=false
@@ -48,28 +53,11 @@ services:
       - TOUGHRADIUS_DB_USER=toughradius
       - TOUGHRADIUS_DB_PWD=Tough!2020
       - TOUGHRADIUS_DB_DEBUG=false
-    networks:
-      toughradius_network:
-
-  freeradius:
-    depends_on:
-      - 'toughradius'
-    image: toughstruct/freeradius
-    container_name: "freeradius"
-    restart: always
-    command: lfreemate
-    ports:
-      - "1912:1912/udp"
-      - "1913:1913/udp"
-      - "1915:1915"
-    expose:
-      - 1912/udp
-      - 1913/udp
-      - 1915
-    volumes:
-      - /opt/toughradius/vardata/freeradius:/var/log/freeradius
-    environment:
-      - FREERADIUS_API_URL=http://toughradius:1816
+      - FREERADIUS_AUTH_PORT=1912
+      - FREERADIUS_AUTH6_PORT=2912
+      - FREERADIUS_ACCT_PORT=1913
+      - FREERADIUS_ACCT6_PORT=2913
+      - FREERADIUS_API_URL=http://127.0.0.1:1816
     networks:
       toughradius_network:
 

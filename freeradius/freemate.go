@@ -82,15 +82,16 @@ func startCheckProc() {
 }
 
 
-func KillRadiusProc() {
+func ReloadRadiusProc() {
 	ps, _ := process.Processes()
 	for _, p := range ps {
 		name, _ := p.Name()
 		if strings.Contains(name, "freeradius") {
-			syscall.Kill(int(p.Pid), syscall.SIGKILL)
+			syscall.Kill(int(p.Pid), syscall.SIGHUP)
 		}
 	}
 }
+
 
 func main() {
 	flag.Parse()
@@ -141,7 +142,7 @@ func clientUpdate(c echo.Context) error {
 	if err != nil {
 		return c.String(http.StatusOK, "Failure")
 	}
-	go KillRadiusProc()
+	go ReloadRadiusProc()
 	return c.String(http.StatusOK, "Success")
 }
 
