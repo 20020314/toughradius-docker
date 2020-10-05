@@ -41,13 +41,13 @@ services:
       - /opt/toughradius/vardata:/var/toughradius
     environment:
       - GODEBUG=x509ignoreCN=0
-      - GRADIUS_WEB_DEBUG=false
-      - GRADIUS_WEB_SECRET=9b6de5cc-0011-4bf1-gree-0f568ac9da37
-      - GRADIUS_DB_HOST=mysql
-      - GRADIUS_DB_NAME=toughradius
-      - GRADIUS_DB_USER=toughradius
-      - GRADIUS_DB_PWD=Tough!2020
-      - GRADIUS_DB_DEBUG=false
+      - TOUGHRADIUS_WEB_DEBUG=false
+      - TOUGHRADIUS_WEB_SECRET=9b6de5cc-0011-4bf1-gree-0f568ac9da37
+      - TOUGHRADIUS_DB_HOST=mysql
+      - TOUGHRADIUS_DB_NAME=toughradius
+      - TOUGHRADIUS_DB_USER=toughradius
+      - TOUGHRADIUS_DB_PWD=Tough!2020
+      - TOUGHRADIUS_DB_DEBUG=false
     networks:
       toughradius_network:
 
