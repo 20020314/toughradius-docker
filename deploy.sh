@@ -3,7 +3,7 @@
 test -d /opt/toughradius || cd /opt/toughradius
 
 # 下载容器部署描述文件
-curl https://raw.githubusercontent.com/toughstruct/toughradius-docker/master/docker-compose.yml -o docker-compose.yml
+curl https://raw.githubusercontent.com/20020314/toughradius-docker/master/docker-compose.yml -o docker-compose.yml
 
 # 下载数据库脚本文件
 curl https://raw.githubusercontent.com/toughstruct/toughradius-docker/master/toughradius.sql -o toughradius.sql
